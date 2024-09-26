@@ -148,6 +148,22 @@ paths:
           description: Erro ao criar usuário.
 
   /users/{id}:
+    get:
+      summary: Retorna um usuário presente na tabela por meio do ID informado.
+      description: Por meio de uma requisição pelo método GET, juntamente de um ID informado na URL (formato = users/id), o usuário com o ID informado é retornado.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+          description: "ID do paciente a ser buscado"
+      responses:
+        '200':
+          description: Paciente encontrado.
+        '404':
+          description: Nenhum paciente encontrado.
+        '500':
+          description: Erro ao buscar paciente.
     put:
       summary: Edita os dados de uma pessoa cadastrada no banco de dados.
       description: Com uma requisição do tipo PUT na rota /users, tendo também um ID informado na URL, é esperado que as informações inseridas no json sejam utlizadas para editar/sobrescrever dados do paciente com o id informado.
@@ -160,6 +176,7 @@ paths:
         - name: Paciente
           in: body
           required: true
+          description: "Informações do paciente a ser atualizado"
           schema:
             type: object
             properties:

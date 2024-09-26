@@ -87,7 +87,7 @@ def buscarPorId(id):
         cur.close()
         conn.close()
         if not paciente:
-            return jsonify({"mensagem": "Nenhum usuario encontrado."}), 407
+            return jsonify({"mensagem": "Nenhum usuario encontrado."}), 404
         return jsonify(paciente), 200
     except Exception as e:
-        return jsonify({"erro": "Erro ao procurar usuario: " + str(e)}), 408
+        return jsonify({"erro": "Erro ao procurar usuario: " + str(e)}), 500

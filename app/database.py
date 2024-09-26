@@ -1,11 +1,13 @@
 import psycopg2
+import os
 
 def criarConexao():
     conn = psycopg2.connect(
-        dbname="postgres",
-        user="postgres",
-        password="acs",
-        host="localhost"
+        dbname=os.environ.get("POSTGRES_DB", "postgres"),
+        user=os.environ.get("POSTGRES_USER", "postgres"),
+        password=os.environ.get("POSTGRES_PASSWORD", "acs"),
+        host=os.environ.get("POSTGRES_HOST", "localhost"),
+        port=os.environ.get("POSTGRES_PORT", "5432")
     )
     return conn
 

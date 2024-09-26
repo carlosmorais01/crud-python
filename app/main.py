@@ -1,8 +1,7 @@
 from flask import Flask
 from flask_swagger_ui import get_swaggerui_blueprint
-from app.database import criarTabela
-from app.routes import setup_routes
-import os
+from .database import criarTabela
+from .routes import setup_routes
 
 SWAGGER_URL = '/api/docs'
 API_URL = '\static\swagger.yml'
