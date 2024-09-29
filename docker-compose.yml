@@ -1,6 +1,20 @@
 services:
+  db:
+    image: postgres:16.4
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: crud
+      POSTGRES_PASSWORD: testecrud
+      POSTGRES_DB: crud
+      POSTGRES_PORT: 5432
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   web:
     build: .
+    command: flask run --host=0.0.0.0
     container_name: flask_app
     ports:
       - "5000:5000"
@@ -15,19 +29,6 @@ services:
       - POSTGRES_PASSWORD=testecrud
       - POSTGRES_DB=crud
       - FLASK_APP=app.main
-
-  db:
-    image: postgres:16.4
-    container_name: postgres_db
-    environment:
-      POSTGRES_USER: crud
-      POSTGRES_PASSWORD: testecrud
-      POSTGRES_DB: crud
-      POSTGRES_PORT: 5432
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data:

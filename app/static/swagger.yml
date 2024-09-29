@@ -5,10 +5,10 @@ info:
   version: 1.0.0
 
 paths:
-  /users:
+  /pacientes:
     get:
       summary: Retorna a lista de pessoas cadastradas.
-      description: Com uma requisição do tipo GET na rota /users, é esperado o retorno de todos os pacientes presentes na tabela do PostgreSQL.
+      description: Com uma requisição do tipo GET na rota /pacientes, é esperado o retorno de todos os pacientes presentes na tabela do PostgreSQL.
       responses:
         '200':
           description: O retorno foi bem-sucedido.
@@ -19,8 +19,6 @@ paths:
                 items: 
                   type: object
                   properties:
-                    id:
-                      type: integer
                     nome:
                       type: string
                     cpf:
@@ -70,7 +68,7 @@ paths:
           description: Erro interno do servidor.
     post:
       summary: Adiciona um paciente no banco de dados.
-      description: Com uma requisição do tipo POST na rota /users, é esperado que seja adicionado um paciente na tabela com os dados informados.
+      description: Com uma requisição do tipo POST na rota /pacientes, é esperado que seja adicionado um paciente na tabela com os dados informados.
       requestBody:
         required: true
         content:
@@ -142,15 +140,15 @@ paths:
                     nivel_prioridade: 1
                     possui_lesao: true
       responses:
-        '201':
+        '200':
           description: Usuário criado com sucesso.
         '404':
           description: Erro ao criar usuário.
 
-  /users/{id}:
+  /pacientes/{id}:
     get:
       summary: Retorna um usuário presente na tabela por meio do ID informado.
-      description: Por meio de uma requisição pelo método GET, juntamente de um ID informado na URL (formato = users/id), o usuário com o ID informado é retornado.
+      description: Por meio de uma requisição pelo método GET, juntamente de um ID informado na URL (formato = pacientes/id), o usuário com o ID informado é retornado.
       parameters:
         - name: id
           in: path
@@ -166,90 +164,93 @@ paths:
           description: Erro ao buscar paciente.
     put:
       summary: Edita os dados de uma pessoa cadastrada no banco de dados.
-      description: Com uma requisição do tipo PUT na rota /users, tendo também um ID informado na URL, é esperado que as informações inseridas no json sejam utlizadas para editar/sobrescrever dados do paciente com o id informado.
+      description: Com uma requisição do tipo PUT na rota /pacientes/{id}, é esperado que as informações inseridas no JSON sejam utilizadas para editar/sobrescrever dados do paciente com o ID informado.
       parameters:
         - name: id
           in: path
           required: true
-          type: integer
-          description: "ID do paciente a ser atualizado"
-        - name: Paciente
-          in: body
-          required: true
-          description: "Informações do paciente a ser atualizado"
           schema:
-            type: object
-            properties:
-                    nome:
-                      type: string
-                    cpf:
-                      type: string
-                      pattern: '^\d{3}\.\d{3}\.\d{3}-\d{2}$'
-                    data_nascimento:
-                      type: string
-                      format: date
-                    nome_mae:
-                      type: string
-                    sexo:
-                      type: string
-                      enum: ["M", "F", "Outro"]
-                      maxLength: 5
-                    cartao_sus:
-                      type: string
-                      pattern: '^\d{15}$'
-                      maxLength: 15
-                    telefone1:
-                      type: string
-                    telefone2:
-                      type: string
-                    email:
-                      type: string
-                    cep:
-                      type: string
-                    bairro:
-                      type: string
-                    logradouro:
-                      type: string
-                    complemento:
-                      type: string
-                    num_casa:
-                      type: string
-                    tabagista:
-                      type: boolean
-                    etilista: 
-                      type: boolean
-                    nivel_prioridade: 
-                      type: integer
-                      enum: [1, 2, 3]
-                    possui_lesao:
-                      type: boolean  
-            example:
-                      nome: Júlia
-                      cpf: 123.456.789-17
-                      data_nascimento: 1986-03-17
-                      nome_mae: Luiza
-                      sexo: F
-                      cartao_sus: 123456789101213
-                      telefone1: 62973234123
-                      telefone2: 62994924531
-                      email: teste@gmail.com
-                      cep: 73453-654
-                      bairro: Avenida 1
-                      logradouro: Rua 2
-                      complemento: Comercial Airton
-                      num_casa: 423
-                      tabagista: true
-                      etilista: true
-                      nivel_prioridade: 1
-                      possui_lesao: true
+            type: integer
+          description: "ID do paciente a ser atualizado"
+      requestBody:  # Mova o corpo da requisição para dentro de requestBody
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                cpf:
+                  type: string
+                  pattern: '^\d{3}\.\d{3}\.\d{3}-\d{2}$'
+                data_nascimento:
+                  type: string
+                  format: date
+                nome_mae:
+                  type: string
+                sexo:
+                  type: string
+                  enum: ["M", "F", "Outro"]
+                  maxLength: 5
+                cartao_sus:
+                  type: string
+                  pattern: '^\d{15}$'
+                  maxLength: 15
+                telefone1:
+                  type: string
+                telefone2:
+                  type: string
+                email:
+                  type: string
+                cep:
+                  type: string
+                bairro:
+                  type: string
+                logradouro:
+                  type: string
+                complemento:
+                  type: string
+                num_casa:
+                  type: string
+                tabagista:
+                  type: boolean
+                etilista:
+                  type: boolean
+                nivel_prioridade:
+                  type: integer
+                  enum: [1, 2, 3]
+                possui_lesao:
+                  type: boolean
+              example:
+                nome: Júlia
+                cpf: 123.456.789-17
+                data_nascimento: 1986-03-17
+                nome_mae: Luiza
+                sexo: F
+                cartao_sus: 123456789101213
+                telefone1: 62973234123
+                telefone2: 62994924531
+                email: teste@gmail.com
+                cep: 73453-654
+                bairro: Avenida 1
+                logradouro: Rua 2
+                complemento: Comercial Airton
+                num_casa: 423
+                tabagista: true
+                etilista: true
+                nivel_prioridade: 1
+                possui_lesao: true
       responses:
-        '204':
-          description: Usuário criado com sucesso.
-        '405':
-          description: Erro ao criar usuário.
+        '200':
+          description: Paciente atualizado com sucesso.
+        '404':
+          description: Nenhum paciente encontrado.
+        '500':
+          description: Erro ao atualizar paciente.
     delete:
       summary: Exclui uma pessoa cadastrada no banco de dados.
-      description: Com uma requisição do tipo DELETE na rota /users, tendo também um ID informado na URL, é esperado que o paciente com o id informado seja excluído do banco de dados.
+      description: Com uma requisição do tipo DELETE na rota /pacientes, tendo também um ID informado na URL, é esperado que o paciente com o id informado seja excluído do banco de dados.
       parameters:
         - name: id
           in: path
@@ -257,7 +258,7 @@ paths:
           type: integer
           description: "ID do item a ser removido"
       responses:
-        '206':
+        '200':
           description: Usuário deletado com sucesso.
         '406':
           description: Erro ao deletar usuário.

@@ -18,7 +18,7 @@ def create_app():
     app = Flask(__name__)
     app.register_blueprint(swaggerui_blueprint)
     setup_routes(app)
-    criarTabela()
+    criarTabela("pacientes")
     return app
 
 if __name__ == '__main__':
