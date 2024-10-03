@@ -17,7 +17,7 @@ Certifique-se de ter instalado em seu ambiente:
 
 - [Python](https://www.python.org/downloads/)
 - [PostgreSQL](https://www.postgresql.org/download/)
-- [Docker](https://docs.docker.com/get-docker/) (opcional)
+- [Docker](https://www.docker.com/) (opcional)
 
 ## Configuração do Ambiente (Com o Docker)
 ### 1. Clonando o Repositório
