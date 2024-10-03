@@ -62,9 +62,9 @@ paths:
                       enum: [1, 2, 3]
                     possui_lesao:
                       type: boolean
-        '403':
+        '404':
           description: Nenhum usuário encontrado.
-        '405':
+        '500':
           description: Erro interno do servidor.
     post:
       summary: Adiciona um paciente no banco de dados.
@@ -142,7 +142,7 @@ paths:
       responses:
         '200':
           description: Usuário criado com sucesso.
-        '404':
+        '500':
           description: Erro ao criar usuário.
 
   /pacientes/{id}:
@@ -260,5 +260,7 @@ paths:
       responses:
         '200':
           description: Usuário deletado com sucesso.
-        '406':
+        '404':
+          description: Usuário não encontrado.
+        '500':
           description: Erro ao deletar usuário.
