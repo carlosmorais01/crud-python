@@ -1,4 +1,13 @@
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    command: ["start-dev"]
+    ports:
+      - "8080:8080"
+
   db:
     image: postgres:16.4
     container_name: postgres_db
@@ -28,7 +37,12 @@ services:
       - POSTGRES_USER=crud
       - POSTGRES_PASSWORD=testecrud
       - POSTGRES_DB=crud
+
       - FLASK_APP=app.main
 
+      - KEYCLOAK_SERVER=http://keycloak:8080/auth
+      - KEYCLOAK_REALM=testes
+      - KEYCLOAK_CLIENT_ID=crud-api
+      - KEYCLOAK_CLIENT_SECRET=PaKjYenk1MGDifw0w4pX9aEv5WiYBIbN
 volumes:
   postgres_data:

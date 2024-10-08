@@ -4,11 +4,22 @@ info:
   description: Teste de funções básicas de CRUD.
   version: 1.0.0
 
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - BearerAuth: []
+
 paths:
   /pacientes:
     get:
       summary: Retorna a lista de pessoas cadastradas.
       description: Com uma requisição do tipo GET na rota /pacientes, é esperado o retorno de todos os pacientes presentes na tabela do PostgreSQL.
+
       responses:
         '200':
           description: O retorno foi bem-sucedido.
@@ -66,6 +77,8 @@ paths:
           description: Nenhum usuário encontrado.
         '500':
           description: Erro interno do servidor.
+
+
     post:
       summary: Adiciona um paciente no banco de dados.
       description: Com uma requisição do tipo POST na rota /pacientes, é esperado que seja adicionado um paciente na tabela com os dados informados.
@@ -264,3 +277,46 @@ paths:
           description: Usuário não encontrado.
         '500':
           description: Erro ao deletar usuário.
+
+  /auth:
+    post:
+      summary: Gera um token de acesso para o usuário.
+      description: Por meio de uma requisição POST, você pode gerar um token de acesso usando o nome de usuário e a senha fornecidos. O token pode ser usado para autenticar outras requisições.
+      requestBody:  # Alterado de parameters para requestBody
+        required: true
+        content:
+          application/json:  # Especifica o tipo de conteúdo que a API aceita
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: "Nome do usuário para autenticação."
+                password:
+                  type: string
+                  description: "Senha do usuário para autenticação."
+      responses:
+        '200':
+          description: Token gerado com sucesso.
+          content:
+            application/json:  # Adicionado o tipo de conteúdo da resposta
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: "Token de acesso gerado."
+                  refresh_token:
+                    type: string
+                    description: "Token de atualização gerado."
+                  expires_in:
+                    type: integer
+                    description: "Tempo de expiração do token em segundos."
+                  token_type:
+                    type: string
+                    description: "Tipo do token (ex: Bearer)."
+        '401':
+          description: Credenciais inválidas.
+        '500':
+          description: Erro ao gerar token.
+
