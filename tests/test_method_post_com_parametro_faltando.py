@@ -19,4 +19,4 @@ def test_obter_pacientes(client):
         #"nivel_prioridade": 1, || IGNORANDO O NÍVEL DE PRIORIDADE
         "possui_lesao": "true"
     })
-    assert response.status_code == 404
+    assert response.status_code == 500

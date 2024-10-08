@@ -1,4 +1,3 @@
-from pytest import mark
 from app.database import criarConexao
 
 def test_verificar_integridade_do_nome(client, app):

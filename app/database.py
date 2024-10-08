@@ -14,6 +14,13 @@ def criarConexao():
     )
     return conn
 
+__conn = None
+def get_db_connection():
+    global __conn
+    if __conn is None:
+        __conn = criarConexao()
+    return __conn
+
 def criarTabela(nome_tabela):
     conn = criarConexao()
     cur = conn.cursor()

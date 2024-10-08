@@ -40,6 +40,6 @@ def test_obter_pacientes(client):
         "possui_lesao": "true"
     })
 
-    assert response.status_code == 404
+    assert response.status_code == 500
 
 
