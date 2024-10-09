@@ -3,37 +3,33 @@ from flask import request, jsonify, current_app
 from keycloak import KeycloakOpenID
 from functools import wraps
 
-def setup_routes(app):
-    # Configurando Keycloak dentro do setup_routes
-    def get_keycloak():
-        server_url = current_app.config.get("KEYCLOAK_SERVER")
-        realm_name = current_app.config.get("KEYCLOAK_REALM")
-        client_id = current_app.config.get("KEYCLOAK_CLIENT_ID")
-        client_secret = current_app.config.get("KEYCLOAK_CLIENT_SECRET")
+def get_keycloak():
+    server_url = current_app.config.get("KEYCLOAK_SERVER")
+    realm_name = current_app.config.get("KEYCLOAK_REALM")
+    client_id = current_app.config.get("KEYCLOAK_CLIENT_ID")
+    client_secret = current_app.config.get("KEYCLOAK_CLIENT_SECRET")
 
-        return KeycloakOpenID(
-            server_url=server_url,
-            realm_name=realm_name,
-            client_id=client_id,
-            client_secret_key=client_secret
-        )
-    
-    # Instância do Keycloak
+    return KeycloakOpenID(
+        server_url=server_url,
+        realm_name=realm_name,
+        client_id=client_id,
+        client_secret_key=client_secret
+    )
+
+def setup_routes(app):
     keycloak_openid = get_keycloak()
 
-    # Middleware para verificar o token
     def token_required(f):
         @wraps(f)
         def decorated(*args, **kwargs):
             token = None
             if 'Authorization' in request.headers:
-                token = request.headers['Authorization'].split(" ")[1]  # Token Bearer
+                token = request.headers['Authorization'].split(" ")[1]
 
             if not token:
                 return jsonify({"message": "Token não informado"}), 401
 
             try:
-                # Valida o token com o Keycloak
                 keycloak_openid.introspect(token)
             except Exception as e:
                 return jsonify({"message": f"Token inválido ou expirado: {str(e)}"}), 401

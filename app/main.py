@@ -17,12 +17,12 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 
 def create_app():
     app = Flask(__name__)
-    # Configurando o Keycloak com variáveis de ambiente
     with app.app_context():
         app.config['KEYCLOAK_SERVER'] = os.getenv('KEYCLOAK_SERVER', 'http://localhost:8080/auth')
         app.config['KEYCLOAK_REALM'] = os.getenv('KEYCLOAK_REALM', 'meu-reino')
         app.config['KEYCLOAK_CLIENT_ID'] = os.getenv('KEYCLOAK_CLIENT_ID', 'meu-cliente')
         app.config['KEYCLOAK_CLIENT_SECRET'] = os.getenv('KEYCLOAK_CLIENT_SECRET', 'meu-segredo')
+        
         app.register_blueprint(swaggerui_blueprint)
         setup_routes(app)
         criarTabela("pacientes")
