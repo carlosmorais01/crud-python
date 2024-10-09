@@ -1,4 +1,7 @@
-def test_obter_pacientes(client):
+def test_obter_pacientes(mock_keycloak, client):
+    headers = {
+        'Authorization': 'Bearer mocked_token'
+    }
     response = client.post('/pacientes', json={
         "nome": "Roberto",
         "cpf": "123.456.789-10",
@@ -18,5 +21,5 @@ def test_obter_pacientes(client):
         "etilista": "false",
         #"nivel_prioridade": 1, || IGNORANDO O NÍVEL DE PRIORIDADE
         "possui_lesao": "true"
-    })
+    }, headers=headers)
     assert response.status_code == 500

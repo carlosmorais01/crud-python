@@ -1,6 +1,6 @@
 from app.database import criarConexao
 
-def test_verificar_integridade_do_nome(client, app):
+def test_verificar_integridade_do_nome(mock_keycloak ,client, app):
     with app.app_context():
         conn = criarConexao()
         cur = conn.cursor()
@@ -14,7 +14,11 @@ def test_verificar_integridade_do_nome(client, app):
         conn.commit()
         cur.close()
         conn.close()
-    response = client.get('/pacientes/1')
+    headers = {
+        'Authorization': 'Bearer mocked_token'
+    }
+    
+    response = client.get('/pacientes/1', headers=headers)
     paciente_inserido = response.get_json()
     
     assert paciente_inserido[1] == 'Teste'

@@ -1,5 +1,5 @@
 from app.database import criarConexao
-def test_obter_pacientes(client, app):
+def test_obter_pacientes(mock_keycloak, client, app):
     with app.app_context():
         conn = criarConexao()
         cur = conn.cursor()
@@ -13,5 +13,9 @@ def test_obter_pacientes(client, app):
         conn.commit()
         cur.close()
         conn.close()
-    response = client.get('/pacientes')
+    
+    headers = {
+        'Authorization': 'Bearer mocked_token'
+    }
+    response = client.get('/pacientes', headers=headers)
     assert response.status_code == 200

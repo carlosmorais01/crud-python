@@ -1,6 +1,7 @@
 import pytest
 from app.main import create_app
 from app.database import criarTabela, criarConexao
+from unittest.mock import patch
 
 @pytest.fixture()
 def app():
@@ -29,3 +30,12 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
+
+@pytest.fixture
+def mock_keycloak():
+    with patch('app.routes.get_keycloak') as mock_get_keycloak:
+        mock_instance = mock_get_keycloak.return_value
+        mock_instance.introspect.return_value = {
+            "active": True
+        }
+        yield mock_get_keycloak

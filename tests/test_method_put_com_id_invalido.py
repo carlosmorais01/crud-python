@@ -1,5 +1,8 @@
-def test_obter_pacientes(client):
-    response = client.put('/pacientes/1', json={
+def test_put_id_invalido(mock_keycloak, client):
+    headers = {
+        'Authorization': 'Bearer mocked_token'
+    }
+    response = client.put('/pacientes/1', headers=headers,json={
         "nome": "Carlos",
         "cpf": "123.456.789-10",
         "data_nascimento": "2001-03-17",

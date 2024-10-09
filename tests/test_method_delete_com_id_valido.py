@@ -1,5 +1,5 @@
 from app.database import criarConexao
-def test_deletar_paciente_presente_na_tabela(client, app):
+def test_deletar_paciente_presente_na_tabela(mock_keycloak, client, app):
     with app.app_context():
         conn = criarConexao()
         cur = conn.cursor()
@@ -13,5 +13,8 @@ def test_deletar_paciente_presente_na_tabela(client, app):
         conn.commit()
         cur.close()
         conn.close()
-    response = client.delete('/pacientes/1')
+    headers = {
+        'Authorization': 'Bearer mocked_token'
+    }
+    response = client.delete('/pacientes/1', headers=headers)
     assert response.status_code == 200

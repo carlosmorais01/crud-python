@@ -1,5 +1,5 @@
 from app.database import criarConexao
-def test_editar_paciente(client, app):
+def test_editar_paciente(mock_keycloak, client, app):
     with app.app_context():
         conn = criarConexao()
         cur = conn.cursor()
@@ -13,6 +13,10 @@ def test_editar_paciente(client, app):
         conn.commit()
         cur.close()
         conn.close()
+    
+    headers = {
+        'Authorization': 'Bearer mocked_token'
+    }
     response = client.put('/pacientes/1', json={
         "nome": "Carlos",
         "cpf": "123.456.789-10",
@@ -32,5 +36,5 @@ def test_editar_paciente(client, app):
         "etilista": "false",
         "nivel_prioridade": 1,
         "possui_lesao": "true"
-    })
+    }, headers=headers)
     assert response.status_code == 200
