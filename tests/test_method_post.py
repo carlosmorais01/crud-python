@@ -22,4 +22,4 @@ def test_postar_paciente(mock_keycloak, client):
         "nivel_prioridade": 1,
         "possui_lesao": "true"
     }, headers=headers)
-    assert response.status_code == 200
+    assert response.status_code == 201

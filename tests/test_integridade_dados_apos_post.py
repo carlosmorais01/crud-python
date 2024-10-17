@@ -21,5 +21,6 @@ def test_verificar_integridade_do_nome(mock_keycloak ,client, app):
     response = client.get('/pacientes/1', headers=headers)
     paciente_inserido = response.get_json()
     
-    assert paciente_inserido[1] == 'Teste'
+    assert paciente_inserido['nome'] == 'Teste'
+
     

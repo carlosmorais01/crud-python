@@ -43,6 +43,6 @@ def test_post_pacientes_cpf_duplicado(mock_keycloak, client):
         "possui_lesao": "true"
     }, headers=headers)
 
-    assert response.status_code == 500
+    assert response.status_code == 409
 
 
