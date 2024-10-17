@@ -2,6 +2,7 @@ from .crud import criarPaciente, listarPacientes, buscarPorId, editarPaciente, d
 from flask import request, jsonify, current_app
 from keycloak import KeycloakOpenID
 from functools import wraps
+from keycloak.exceptions import KeycloakAuthenticationError
 
 def get_keycloak():
     server_url = current_app.config.get("KEYCLOAK_SERVER")
@@ -48,7 +49,7 @@ def setup_routes(app):
     def verPacientes():
         return listarPacientes()
     
-    @app.route('/pacientes/<int:id>', methods=['GET'])
+    @app.route('/pacientes/<id>', methods=['GET'])
     @token_required
     def verPaciente(id):
         return buscarPorId(id)
@@ -62,14 +63,27 @@ def setup_routes(app):
     @token_required
     def deletarPessoa(id):
         return deletarPaciente(id)
-    
+        
     @app.route('/auth', methods=['POST'])
     def authenticate():
-        data = request.json
-        username = data.get("username")
-        password = data.get("password")
+        try:
+            data = request.json
+            if not data:
+                return jsonify({"mensagem": "Dados de autenticação ausentes."}), 400
+
+            username = data.get("username")
+            password = data.get("password")
+
+            if not username or not password:
+                return jsonify({"mensagem": "Username e password são obrigatórios."}), 400
+
+            keycloak_openid = get_keycloak()
+
+            token = keycloak_openid.token(username, password)
+            return jsonify(token), 200
         
-        keycloak_openid = get_keycloak()
-        token = keycloak_openid.token(username, password)
-    
-        return jsonify(token)
+        except KeycloakAuthenticationError:
+            return jsonify({"mensagem": "Credenciais inválidas."}), 401
+
+        except Exception as e:
+            return jsonify({"mensagem": f"Erro interno: {str(e)}"}), 500
