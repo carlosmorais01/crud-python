@@ -1,0 +1,33 @@
+{
+    "realm": "testes",
+    "enabled": true,
+    "clients": [
+      {
+        "clientId": "crud-api",
+        "enabled": true,
+        "directAccessGrantsEnabled": true,
+        "protocol": "openid-connect",
+        "clientAuthenticatorType": "client-secret",
+        "secret": "KX92YjfxGtW8Red8lk9aAjMPq6HZVSAr",
+        "redirectUris": ["http://localhost:5000/*"]
+      }
+    ],
+    "users": [
+      {
+        "username": "gestor",
+        "enabled": true,
+        "email": "gestor@exemplo.com",
+        "firstName": "Gestor",
+        "lastName": "Teste",
+        "requiredActions": [],
+        "credentials": [
+          {
+            "type": "password",
+            "value": "gestor123",
+            "temporary": false
+          }
+        ]
+      }
+    ]
+  }
+  
