@@ -11,6 +11,12 @@ services:
   db:
     image: postgres:16.4
     container_name: postgres_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crud -d crud"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     environment:
       POSTGRES_USER: crud
       POSTGRES_PASSWORD: testecrud
@@ -23,6 +29,10 @@ services:
 
   web:
     build: .
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
     command: flask run --host=0.0.0.0
     container_name: flask_app
     ports:
