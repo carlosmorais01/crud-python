@@ -10,6 +10,7 @@ Este projeto implementa uma API CRUD (Create, Read, Update, Delete) em Python us
 - Docker
 - Swagger (para documentação)
 - pytest (para testes)
+- keycloak
 
 ## Requisitos
 
@@ -83,7 +84,7 @@ Abaixo estão descritos os principais endpoints da API.
 - Descrição: Remove um paciente da base de dados.
   
 ## Acessando pelo Swagger
-A API está documentada utilizando Swagger e o arquivo de definição está no formato OpenAPI 3.0. Após iniciar a aplicação, acesse a [documentação no navegador](http://localhost:5000/api/docs). A interface permitirá testar todos os endpoints diretamente.
+A API está documentada utilizando Swagger e o arquivo de definição está no formato OpenAPI 3.0. Após iniciar a aplicação, acesse a [documentação no navegador](http://localhost:5000/api/docs). A interface permitirá testar todos os endpoints diretamente. Um token de autenticação deverá ser informado para uso dos endpoints. Para isso, obtenha o token postando o usuário "gestor" com senha "gestor123"
 
 ## Acessando pela URL
 O acesso da lista de pacientes pode ser feito pela URL http://localhost:5000/pacientes.
